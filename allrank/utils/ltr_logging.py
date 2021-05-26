@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def init_logger(output_dir: str) -> logging.Logger:
+def init_logger(output_dir: str, filename=None) -> logging.Logger:
     log_format = "[%(levelname)s] %(asctime)s - %(message)s"
     log_dateformat = "%Y-%m-%d %H:%M:%S"
 
@@ -11,9 +11,10 @@ def init_logger(output_dir: str) -> logging.Logger:
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
+    logger.handlers = []#to remove multiple instance of logs to different paths
 
     # create a file handler
-    handler = logging.FileHandler(os.path.join(output_dir, "training.log"))
+    handler = logging.FileHandler(os.path.join(output_dir, "training.log" if not filename else filename))
     handler.setLevel(logging.INFO)
 
     # create a logging format

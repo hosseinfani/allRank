@@ -1,3 +1,5 @@
+import sys
+sys.path.extend(["./lib/allrank/"])
 from urllib.parse import urlparse
 
 import allrank.models.losses as losses

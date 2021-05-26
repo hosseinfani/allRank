@@ -1,4 +1,5 @@
 import os
+from collections import Counter
 from typing import Tuple
 
 import numpy as np
@@ -106,8 +107,11 @@ class LibSVMDataset(Dataset):
         """
         X = X.toarray()
 
-        _, indices, counts = np.unique(query_ids, return_index=True, return_counts=True)
-        groups = np.cumsum(counts[np.argsort(indices)])
+        self.query_ids = Counter(query_ids)
+        groups = np.cumsum(list(self.query_ids.values()))
+
+        # _, indices, counts = np.unique(query_ids, return_index=True, return_counts=True)
+        # groups = np.cumsum(counts[np.argsort(indices)])
 
         self.X_by_qid = np.split(X, groups)[:-1]
         self.y_by_qid = np.split(y, groups)[:-1]
